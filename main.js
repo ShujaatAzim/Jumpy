@@ -1,10 +1,47 @@
+
 kaboom()
 loadSprite("ghost", "./Sprites/ghost.png");
+
+scene("title", () => {
+  add([
+    text("Jumpy!"),
+    pos(width() / 2, height() / 4),
+    origin("center")
+  ])
+
+  add([
+    text("By Shujaat Azim"),
+    pos(width() / 2, height() / 3),
+    origin("center"),
+    scale(0.5)
+  ])
+  
+  add([
+    sprite("ghost"),
+    pos(width() / 2, height() / 2 - 50),
+    origin("center"),
+    scale(2)
+  ])
+
+  add([
+    text("Press Space to Start!"),
+    pos(width() / 2, height() / 2 + 50),
+    origin("center"),
+    scale(0.5)
+  ])
+
+
+  keyPress("space", () => {
+    go("game")
+  })
+})
+
+go("title")
 
 scene("game", () => {
   const ghost = add([
     sprite("ghost"),
-    pos(80, 40),
+    pos(80, 500),
     area(),
     body(),
   ]);
@@ -18,7 +55,27 @@ scene("game", () => {
     color(127, 200, 255),
   ])
 
-  loop(1, () => {
+  add([
+    text("Jumpy!"),
+    pos(width() / 2, height() / 4),
+    origin("center")
+  ])
+
+  add([
+    text("By Shujaat Azim"),
+    pos(width() / 2, height() / 3),
+    origin("center"),
+    scale(0.5)
+  ])
+
+  add([
+    text("Press Esc to End"),
+    pos(width() / 2, height() / 2 - 50),
+    origin("center"),
+    scale(0.5)
+  ])
+
+  const spawnTree = () => {
     add([
       rect(48, rand(24, 64)),
       area(),
@@ -29,12 +86,19 @@ scene("game", () => {
       move(LEFT, 240),
       "tree"
     ]);
-
-  });
+    wait(rand(1.1, 1.7), () => {
+      spawnTree();
+    });
+  }
+  spawnTree();
 
   keyPress("space", () => {
     if (ghost.grounded()) ghost.jump();
   });
+
+  keyPress("escape", () => {
+    go("lose", score)
+  })
 
   ghost.collides("tree", () => {
     addKaboom(ghost.pos);
@@ -54,7 +118,6 @@ scene("game", () => {
   });
 
 });
-go("game")
 
 scene("lose", (score) => {
   add([
@@ -70,7 +133,7 @@ scene("lose", (score) => {
   ]);
 
   add([
-    text("Press Space Bar to Play Again!"),
+    text("Press Space Bar to Play Again or Esc to Quit"),
     pos(width() /2, height() / 2  + 150),
     origin("center"),
     scale(0.5)
@@ -78,5 +141,9 @@ scene("lose", (score) => {
 
   keyPress("space", () => {
     go("game")
+  });
+
+  keyPress("escape", () => {
+    go("title")
   });
 });

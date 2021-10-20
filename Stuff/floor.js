@@ -1,4 +1,5 @@
 // need to figure out how to properly make this reusable in multiple scenes
+kaboom()
 
 export const floor = [
   rect(width(), 48),
