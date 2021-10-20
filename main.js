@@ -1,5 +1,5 @@
 kaboom()
-loadSprite("ghost", "ghost.png");
+loadSprite("ghost", "./Sprites/ghost.png");
 
 scene("game", () => {
   const ghost = add([
@@ -16,7 +16,7 @@ scene("game", () => {
     area(),
     solid(),
     color(127, 200, 255),
-  ]);
+  ])
 
   loop(1, () => {
     add([
@@ -39,7 +39,7 @@ scene("game", () => {
   ghost.collides("tree", () => {
     addKaboom(ghost.pos);
     shake();
-    go("lose");
+    go("lose", score);
   });
 
   let score = 0;
@@ -54,13 +54,29 @@ scene("game", () => {
   });
 
 });
-
 go("game")
 
-scene("lose", () => {
+scene("lose", (score) => {
   add([
     text("Game Over"),
-    pos(center()),
+    pos(width() / 2, height() / 2 - 80),
     origin("center"),
   ]);
+
+  add([
+    text(`Score: ${score}`),
+    pos(width() /2, height() / 2 + 40),
+    origin("center")
+  ]);
+
+  add([
+    text("Press Space Bar to Play Again!"),
+    pos(width() /2, height() / 2  + 150),
+    origin("center"),
+    scale(0.5)
+  ])
+
+  keyPress("space", () => {
+    go("game")
+  });
 });
