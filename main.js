@@ -1,4 +1,3 @@
-
 kaboom()
 loadSprite("ghost", "./Sprites/ghost.png");
 

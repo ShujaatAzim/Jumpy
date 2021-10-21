@@ -1,5 +1,4 @@
 // need to figure out how to properly make this reusable in multiple scenes
-kaboom()
 
 export const floor = [
   rect(width(), 48),
@@ -9,3 +8,5 @@ export const floor = [
   solid(),
   color(127, 200, 255),
 ]
+
+export default floor
